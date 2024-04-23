@@ -5,9 +5,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,11 +15,11 @@
  * limitations under the License.
  *
  * ========================= eCAL LICENSE =================================
-*/
+ */
 
 /**
  * @brief  eCAL threading helper class
-**/
+ **/
 
 #pragma once
 
@@ -29,45 +29,42 @@
 #include <thread>
 #include <functional>
 
-namespace eCAL
-{
-  class CThread
-  {
-  public:
-    CThread();
+namespace eCAL {
+
+/**
+ * @brief eCAL 对线程的封装
+ */
+class CThread {
+public:
+    CThread() = default;
     virtual ~CThread();
 
-    CThread(const CThread&) = delete;
+    CThread(const CThread&)            = delete;
     CThread& operator=(const CThread&) = delete;
-    CThread(CThread&& rhs) = delete;
-    CThread& operator=(CThread&& rhs) = delete;
+    CThread(CThread&& rhs)             = delete;
+    CThread& operator=(CThread&& rhs)  = delete;
 
     int Start(int period, std::function<int()> ext_caller_);
     int Stop();
-    int Fire();
+    int Fire() const;
 
-    bool IsRunning()        {return(m_tdata.is_running);};
+    bool IsRunning() const { return (m_tdata.is_running); };
 
-  protected:
-    struct ThreadData
-    {
-      ThreadData() :
-         period(0)
-       , is_running(false)
-       , is_started(false)
-       , do_stop(false)
-      {
-      };
-      std::thread             thread;
-      int                     period;
-      EventHandleT            event;
-      std::atomic<bool>       is_running;
-      std::atomic<bool>       is_started;
-      std::atomic<bool>       do_stop;
-      std::function<int()>    ext_caller;
+protected:
+    struct ThreadData {
+
+        std::thread          thread;              ///<<< 线程句柄
+        int                  period{ 0 };         ///<<< 执行周期
+        EventHandleT         event;               ///<<< 事件处理
+        std::atomic<bool>    is_running{ false }; ///<<< 是否在运行中
+        std::atomic<bool>    is_started{ false }; ///<<< 是否启动了
+        std::atomic<bool>    do_stop{ false };    ///<<< 是否停止
+        std::function<int()> ext_caller;          ///<<< 外部调用
     };
+
+    // 线程数据
     struct ThreadData m_tdata;
 
     static void HelperThread(void* par_);
-  };
-}
+};
+} // namespace eCAL

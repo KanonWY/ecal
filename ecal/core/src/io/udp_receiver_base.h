@@ -15,32 +15,30 @@
  * limitations under the License.
  *
  * ========================= eCAL LICENSE =================================
-*/
+ */
 
 #pragma once
 
 #include <io/udp_receiver.h>
 
-namespace eCAL
-{
-  ////////////////////////////////////////////////////////
-  // udp receiver class implementation
-  ////////////////////////////////////////////////////////
-  class CUDPReceiverBase
-  {
-  public:
-    CUDPReceiverBase(const SReceiverAttr& /*attr_*/) {};
+namespace eCAL {
+////////////////////////////////////////////////////////
+// udp receiver class implementation
+////////////////////////////////////////////////////////
+class CUDPReceiverBase {
+public:
+    CUDPReceiverBase(const SReceiverAttr& /*attr_*/){};
     // We don't technically need a virtual destructor, if we are working with shared_ptrs...
     virtual ~CUDPReceiverBase() = default;
-    // Delete copy / move operations to prevent slicing
-    CUDPReceiverBase(CUDPReceiverBase&&) = delete;
-    CUDPReceiverBase& operator=(CUDPReceiverBase&&) = delete;
-    CUDPReceiverBase(const CUDPReceiverBase&) = delete;
+    
+    CUDPReceiverBase(CUDPReceiverBase&&)                 = delete;
+    CUDPReceiverBase& operator=(CUDPReceiverBase&&)      = delete;
+    CUDPReceiverBase(const CUDPReceiverBase&)            = delete;
     CUDPReceiverBase& operator=(const CUDPReceiverBase&) = delete;
 
     virtual bool AddMultiCastGroup(const char* ipaddr_) = 0;
     virtual bool RemMultiCastGroup(const char* ipaddr_) = 0;
 
     virtual size_t Receive(char* buf_, size_t len_, int timeout_, ::sockaddr_in* address_ = nullptr) = 0;
-  };
-}
+};
+} // namespace eCAL

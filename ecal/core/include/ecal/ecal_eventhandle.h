@@ -5,9 +5,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,44 +15,36 @@
  * limitations under the License.
  *
  * ========================= eCAL LICENSE =================================
-*/
+ */
 
 /**
  * @file   ecal_eventhandle.h
  * @brief  eCAL event handle
-**/
+ **/
 
 #pragma once
 
 #include <string>
 #include <vector>
 
-namespace eCAL
-{
-  /**
-   * @brief eCAL event callback handle.
-  **/
-  struct SEventHandle
-  {
-    /**
-     * @brief Event callback handle constructor.
-    **/
-    SEventHandle() : name(), handle(nullptr)
-    {
-    };
-    std::string name;    //!< event name
-    void*       handle;  //!< event handle
+namespace eCAL {
+/**
+ * @brief eCAL 事件回调处理
+ **/
+struct SEventHandle {
 
-    /* @cond */
-    bool operator==(const SEventHandle& rhs)
-    {
-      return(rhs.name == name && rhs.handle == handle);
+    SEventHandle() = default;
+
+
+    std::string name;              //!< 事件名称
+    void*       handle{ nullptr }; //!< 事件处理
+
+    bool operator==(const SEventHandle& rhs) const {
+        return (rhs.name == name && rhs.handle == handle);
     }
-    /* @endcond */
-  };
+};
 
-  /* @cond */
-  typedef SEventHandle              EventHandleT;
-  typedef std::vector<EventHandleT> EventHandleVecT;
-  /* @endcond */
-}
+using EventHandleT    = SEventHandle;
+using EventHandleVecT = std::vector<EventHandleT>;
+
+} // namespace eCAL
